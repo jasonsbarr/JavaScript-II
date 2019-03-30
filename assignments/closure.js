@@ -1,6 +1,16 @@
 // ==== Challenge 1: Write your own closure ====
 // Write a simple closure of your own creation.  Keep it simple!
+const createHTMLElementFactory = function(elem) {
+  return function(text) {
+    const htmlElem = document.createElement(elem);
+    htmlElem.textContent = text; // undefined if not set with arg is the desired behavior
+    return htmlElem;
+  };
+}
 
+// example usage
+const h1 = createHTMLElementFactory('h1');
+const pageHeader = h1('Welcome to my page');
 
 /* STRETCH PROBLEMS, Do not attempt until you have completed all previous tasks for today's project files */
 
