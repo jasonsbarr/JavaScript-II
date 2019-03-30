@@ -2,6 +2,25 @@
 
 const items = ['Pencil', 'Notebook', 'yo-yo', 'Gum'];
 
+/**
+ * Recursive implementation of Array.prototype.map
+ * 
+ * @param {Function} fn Callback to transform array elements
+ * @param {Array} param1 Array destructured into head and ...tail
+ * @return {Array} Transformed array
+ */
+const recursiveMap = function (fn, [head, ...tail]) {
+    if (head === undefined && tail.length < 1) {
+        return [];
+    }
+
+    return [fn(head), ...recursiveMap(fn, tail)];
+}
+
+console.log(recursiveMap(function(str) {
+    return str.toLowerCase();
+}, items));
+
 /* 
 
   //Given this problem: 
@@ -18,38 +37,61 @@ const items = ['Pencil', 'Notebook', 'yo-yo', 'Gum'];
   }
 
   // Function invocation 
-  firstItem(items, function(first) {
-    console.log(first)
-  });
+  
+  */
 
-*/
+/**
+ * Takes a Strings and returns the first letter
+ * 
+ * @param {String} str a string
+ * @returns {String} first letter
+ */
+const firstLetter = function (str) {
+    return str[0];
+}
 
+// Process first item in array
+function firstItem(items, fn) {
+    return fn(items[0]);
+}
+
+// Get first letter of first in an array of strings
+console.log(firstItem(items, firstLetter));
 
 function getLength(arr, cb) {
-  // getLength passes the length of the array into the callback.
+  return cb(arr.length);
 }
 
 function last(arr, cb) {
-  // last passes the last item of the array into the callback.
+  return cb(arr[arr.length - 1]);
 }
 
 function sumNums(x, y, cb) {
-  // sumNums adds two numbers (x, y) and passes the result to the callback.
+  return cb(x + y);
 }
 
 function multiplyNums(x, y, cb) {
-  // multiplyNums multiplies two numbers and passes the result to the callback.
+  return cb(x * y);
 }
 
 function contains(item, list, cb) {
-  // contains checks if an item is present inside of the given array/list.
-  // Pass true to the callback if it is, otherwise pass false.
+  return cb(list.includes(item));
 }
 
 /* STRETCH PROBLEM */
 
 function removeDuplicates(array, cb) {
-  // removeDuplicates removes all duplicate values from the given array.
-  // Pass the duplicate free array to the callback function.
-  // Do not mutate the original array.
+  const removed = [];
+  for (let i = 0; i < array.length; i++) {
+      if (!removed.includes(array[i])) {
+          removed.push(array[i]);
+      }
+  }
+
+  return removed;
+}
+
+// Alternatively
+function removeDuplicatesV2(array, fn) {
+    return fn(Array.from(new Set(array)));
 }
